@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tic Tac Toe</title>
+		<link rel="stylesheet" href="style2.css" />
+		<style>
+			body {
+				background-image: url("wp5.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<h1>Jo Jita Waii Sikkendar!!</h1>
+				<h2 id="playersInfo"></h2>
+				<!-- New element to display player names -->
+			</header>
+			<div id="board"></div>
+			<button id="reset">Reset</button>
+			<h2 id="customMessage"></h2>
+			<!-- New element to display custom message -->
+		</div>
+
+		<script>
+			// Extract player names from URL parameters
+			const urlParams = new URLSearchParams(window.location.search);
+			const player1 = urlParams.get("player1");
+			const player2 = urlParams.get("player2");
+
+			// Update header with player names
+			const header = document.querySelector("header h1");
+			header.textContent = "Jo Jita Waii Sikkendar!!";
+
+			// Display player names on separate lines
+			const playersInfo = document.getElementById("playersInfo");
+			playersInfo.textContent = `${player1} VS ${player2}`;
+
+			// Define game variables
+			let board = ["", "", "", "", "", "", "", "", ""];
+			let currentPlayer = "X"; // Start with player X
+			let gameover = false;
+
+			// Create board
+			for (let i = 0; i < 9; i++) {
+				let div = document.createElement("div");
+				div.className = "square";
+				div.id = i;
+				div.addEventListener("click", () => {
+					if (!gameover && board[i] === "") {
+						board[i] = currentPlayer;
+						div.textContent = currentPlayer;
+						div.style.color = currentPlayer === "X" ? "purple" : "red";
+						currentPlayer = currentPlayer === "X" ? "O" : "X"; // Toggle between players X and O
+						checkWinner();
+					}
+				});
+				document.getElementById("board").appendChild(div);
+				if ((i + 1) % 3 === 0) {
+					document
+						.getElementById("board")
+						.appendChild(document.createElement("br"));
+				}
+			}
+
+			// Reset board
+			document.getElementById("reset").addEventListener("click", () => {
+				board = ["", "", "", "", "", "", "", "", ""];
+				currentPlayer = "X";
+				gameover = false;
+				let squares = document.getElementsByClassName("square");
+				for (let i = 0; i < squares.length; i++) {
+					squares[i].textContent = "";
+					squares[i].style.color = "black";
+					squares[i].style.backgroundColor = "rgb(84,200,232)";
+				}
+				// Clear custom message
+				document.getElementById("customMessage").textContent = "";
+			});
+
+			// Check for winner
+			function checkWinner() {
+				for (let i = 0; i < 9; i += 3) {
+					if (
+						board[i] !== "" &&
+						board[i] === board[i + 1] &&
+						board[i + 1] === board[i + 2]
+					) {
+						gameover = true;
+						document.getElementById(i).style.backgroundColor =
+							" rgb(84, 240, 235)";
+						document.getElementById(i + 1).style.backgroundColor =
+							" rgb(84, 240, 235)";
+						document.getElementById(i + 2).style.backgroundColor =
+							" rgb(84, 240, 235)";
+						document.getElementById(
+							"customMessage"
+						).textContent = `${getPlayerName(board[i])} wins!`; // Display winner's name in custom message
+						break;
+					}
+				}
+				for (let i = 0; i < 3; i++) {
+					if (
+						board[i] !== "" &&
+						board[i] === board[i + 3] &&
+						board[i + 3] === board[i + 6]
+					) {
+						gameover = true;
+						document.getElementById(i).style.backgroundColor =
+							" rgb(84, 240, 235)";
+						document.getElementById(i + 3).style.backgroundColor =
+							" rgb(84, 240, 235)";
+						document.getElementById(i + 6).style.backgroundColor =
+							" rgb(84, 240, 235)";
+						document.getElementById(
+							"customMessage"
+						).textContent = `${getPlayerName(board[i])} wins!`; // Display winner's name in custom message
+						break;
+					}
+				}
+				if (board[0] !== "" && board[0] === board[4] && board[4] === board[8]) {
+					gameover = true;
+					document.getElementById(0).style.backgroundColor =
+						" rgb(84, 240, 235)";
+					document.getElementById(4).style.backgroundColor =
+						" rgb(84, 240, 235)";
+					document.getElementById(8).style.backgroundColor =
+						" rgb(84, 240, 235)";
+					document.getElementById(
+						"customMessage"
+					).textContent = `${getPlayerName(board[0])} wins!`; // Display winner's name in custom message
+				}
+				if (board[2] !== "" && board[2] === board[4] && board[4] === board[6]) {
+					gameover = true;
+					document.getElementById(2).style.backgroundColor =
+						" rgb(84, 240, 235)";
+					document.getElementById(4).style.backgroundColor =
+						" rgb(84, 240, 235)";
+					document.getElementById(6).style.backgroundColor =
+						" rgb(84, 240, 235)";
+					document.getElementById(
+						"customMessage"
+					).textContent = `${getPlayerName(board[2])} wins!`; // Display winner's name in custom message
+				}
+				if (!board.includes("") && !gameover) {
+					gameover = true;
+					document.getElementById("customMessage").textContent = "Tie game!";
+				}
+			}
+
+			// Function to get player name from "X" or "O"
+			function getPlayerName(player) {
+				return player === "X" ? player1 : player2;
+			}
+			document.addEventListener("DOMContentLoaded", () => {
+				let squares = document.getElementsByClassName("square");
+				for (let i = 0; i < squares.length; i++) {
+					squares[i].style.backgroundColor = "rgb(84,200,232)";
+				}
+			});
+		</script>
+	</body>
+</html>

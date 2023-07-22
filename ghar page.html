@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ghar Page</title>
+		<link rel="stylesheet" href="style1.css" />
+		<style>
+			body {
+				background-image: url("wp5.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>Tic Tac Toe !!</h1>
+		</header>
+		<h1>Enter player Details:</h1>
+		<form id="playerForm">
+			<h2>
+				<label for="player1">Enter your Name :</label>
+				<input type="text" id="player1" name="player1" required />
+			</h2>
+			<h2>
+				<label for="player2">Enter name of your Partner :</label>
+				<input type="text" id="player2" name="player2" required />
+			</h2>
+			<button type="submit">To Chaliye Shuru Karte h</button>
+		</form>
+
+		<script>
+			document
+				.getElementById("playerForm")
+				.addEventListener("submit", (event) => {
+					event.preventDefault();
+					const player1Name = document.getElementById("player1").value;
+					const player2Name = document.getElementById("player2").value;
+					const url = `Tic_tac_toe_web.html?player1=${encodeURIComponent(
+						player1Name
+					)}&player2=${encodeURIComponent(player2Name)} `;
+					window.open(url, "_blank");
+				});
+		</script>
+	</body>
+</html>
